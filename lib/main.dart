@@ -6,10 +6,12 @@ import 'theme/app_theme.dart';
 import 'screens/portfolio/portfolio_screen.dart';
 import 'package:provider/provider.dart';
 import 'providers/portfolio_provider.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Initialize Hive
   await Hive.initFlutter();
   final storageService = StorageService();
