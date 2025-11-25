@@ -30,20 +30,20 @@ class PortfolioScreen extends StatelessWidget {
             ),
           ),
 
-          // Floating dashboard button
-          Positioned(
-            bottom: 24,
-            right: 24,
-            child: FloatingActionButton.extended(
-              onPressed: () => context.go('/dashboard'),
-              backgroundColor: AppColors.lightPrimary,
-              icon: const Icon(Icons.dashboard, color: Colors.white),
-              label: const Text(
-                'Dashboard',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
+          // // Floating dashboard button
+          // Positioned(
+          //   bottom: 24,
+          //   right: 24,
+          //   child: FloatingActionButton.extended(
+          //     onPressed: () => context.go('/dashboard'),
+          //     backgroundColor: AppColors.lightPrimary,
+          //     icon: const Icon(Icons.dashboard, color: Colors.white),
+          //     label: const Text(
+          //       'Dashboard',
+          //       style: TextStyle(color: Colors.white),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
