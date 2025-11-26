@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import 'services/storage_service.dart';
 import 'theme/app_theme.dart';
 import 'screens/portfolio/portfolio_screen.dart';
 import 'package:provider/provider.dart';
 import 'providers/portfolio_provider.dart';
+import 'providers/theme_provider.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'widgets/loading_widgets.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Initialize Hive
-  await Hive.initFlutter();
+
   final storageService = StorageService();
   await storageService.init();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => PortfolioProvider(storageService),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => PortfolioProvider(storageService)),
+      ],
       child: const MyPortfolioApp(),
     ),
   );
@@ -30,13 +33,17 @@ class MyPortfolioApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My Portfolio',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
-      home: const PortfolioHome(),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          title: 'Desoky Portfolio',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeProvider.themeMode,
+          home: const PortfolioHome(),
+        );
+      },
     );
   }
 }
@@ -49,10 +56,34 @@ class PortfolioHome extends StatelessWidget {
     return Consumer<PortfolioProvider>(
       builder: (context, provider, child) {
         if (provider.isLoading) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+          return const PortfolioLoadingScreen();
+        }
+
+        if (provider.hasLoadError) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text(
+                    provider.errorMessage ?? 'Failed to load portfolio',
+                    style: const TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: provider.refresh,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Retry'),
+                  ),
+                ],
+              ),
+            ),
           );
         }
+
         return const PortfolioScreen();
       },
     );

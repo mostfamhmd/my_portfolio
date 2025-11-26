@@ -6,7 +6,9 @@ import '../../../providers/portfolio_provider.dart';
 import '../../../theme/app_colors.dart';
 
 class ContactSection extends StatelessWidget {
-  const ContactSection({super.key});
+  final Key? sectionKey;
+
+  const ContactSection({super.key, this.sectionKey});
 
   Future<void> _launchUrl(String url) async {
     if (url.isEmpty) return;
@@ -36,6 +38,7 @@ class ContactSection extends StatelessWidget {
     final personalInfo = provider.personalInfo;
 
     return Container(
+      key: sectionKey,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 24),
       decoration: const BoxDecoration(

@@ -3,7 +3,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/portfolio_provider.dart';
 import '../../../widgets/gradient_card.dart';
-import '../../../theme/app_colors.dart';
 
 class SkillsSection extends StatelessWidget {
   const SkillsSection({super.key});
@@ -23,6 +22,7 @@ class SkillsSection extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1200),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               'Skills & Technologies',
@@ -32,69 +32,61 @@ class SkillsSection extends StatelessWidget {
             const SizedBox(height: 48),
 
             ...skillsByCategory.entries.map((entry) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(
-                      entry.key,
-                      style: Theme.of(context).textTheme.headlineSmall,
+              return Align(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: Text(
+                        entry.key,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
                     ),
-                  ),
-                  Wrap(
-                    spacing: 16,
-                    runSpacing: 16,
-                    children: entry.value.map((skill) {
-                      return SizedBox(
-                        width: 280,
-                        child: GradientCard(
-                          hasGlassEffect: false,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    skill.name,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.titleMedium,
-                                  ),
-                                  Text(
-                                    '${skill.proficiency}%',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall
-                                        ?.copyWith(
-                                          color: AppColors.lightPrimary,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: LinearProgressIndicator(
-                                  value: skill.proficiency / 100,
-                                  minHeight: 8,
-                                  backgroundColor: Colors.grey[300],
-                                  valueColor:
-                                      const AlwaysStoppedAnimation<Color>(
-                                        AppColors.lightPrimary,
-                                      ),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: entry.value.map((skill) {
+                        return SizedBox(
+                          // width: 280,
+                          child: GradientCard(
+                            hasGlassEffect: false,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  skill.name,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ).animate().fadeIn(delay: 100.ms).slideX(begin: -0.2),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 32),
-                ],
+                                // const SizedBox(height: 12),
+                                // Wrap(
+                                //   spacing: 8,
+                                //   runSpacing: 6,
+                                //   children: [
+                                //     Chip(
+                                //       label: Text(
+                                //         skill.category,
+                                //         style: Theme.of(context)
+                                //             .textTheme
+                                //             .labelMedium,
+                                //       ),
+                                //       backgroundColor: AppColors.darkBackground
+                                //           .withOpacity(0.05),
+                                //     ),
+                                //   ],
+                                // ),
+                              ],
+                            ),
+                          ).animate().fadeIn(delay: 100.ms).slideX(begin: -0.2),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 32),
+                  ],
+                ),
               );
             }),
           ],

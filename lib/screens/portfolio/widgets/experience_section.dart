@@ -17,9 +17,22 @@ class ExperienceSection extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    // Sort by start date descending
+    // Sort: current experience first, then by end date desc, then start date desc
     final sortedExperiences = experiences.toList()
-      ..sort((a, b) => b.startDate.compareTo(a.startDate));
+      ..sort((a, b) {
+        // Current (ongoing) experience always comes first
+        if (a.isCurrent && !b.isCurrent) return -1;
+        if (!a.isCurrent && b.isCurrent) return 1;
+
+        // If both are current or both are not, sort by end date desc (null = ongoing)
+        final aEnd = a.endDate ?? DateTime.now();
+        final bEnd = b.endDate ?? DateTime.now();
+        final endCompare = bEnd.compareTo(aEnd);
+        if (endCompare != 0) return endCompare;
+
+        // If end dates are equal, sort by start date desc
+        return b.startDate.compareTo(a.startDate);
+      });
 
     return Container(
       width: double.infinity,

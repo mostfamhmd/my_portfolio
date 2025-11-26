@@ -7,7 +7,9 @@ import '../../../widgets/gradient_card.dart';
 import '../../../theme/app_colors.dart';
 
 class ProjectsSection extends StatelessWidget {
-  const ProjectsSection({super.key});
+  final Key? sectionKey;
+
+  const ProjectsSection({super.key, this.sectionKey});
 
   Future<void> _launchUrl(String url) async {
     if (url.isEmpty) return;
@@ -27,6 +29,7 @@ class ProjectsSection extends StatelessWidget {
     }
 
     return Container(
+      key: sectionKey,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 24),
       child: ConstrainedBox(
@@ -131,25 +134,25 @@ class ProjectsSection extends StatelessWidget {
                         // Links
                         Row(
                           children: [
-                            if (project.projectUrl.isNotEmpty)
+                            if (project.playStoreUrl.isNotEmpty)
                               Expanded(
                                 child: OutlinedButton.icon(
                                   onPressed: () =>
-                                      _launchUrl(project.projectUrl),
-                                  icon: const Icon(Icons.launch, size: 16),
-                                  label: const Text('Demo'),
+                                      _launchUrl(project.playStoreUrl),
+                                  icon: const Icon(Icons.android, size: 16),
+                                  label: const Text('Play Store'),
                                 ),
                               ),
-                            if (project.projectUrl.isNotEmpty &&
-                                project.githubUrl.isNotEmpty)
+                            if (project.playStoreUrl.isNotEmpty &&
+                                project.appStoreUrl.isNotEmpty)
                               const SizedBox(width: 8),
-                            if (project.githubUrl.isNotEmpty)
+                            if (project.appStoreUrl.isNotEmpty)
                               Expanded(
                                 child: OutlinedButton.icon(
                                   onPressed: () =>
-                                      _launchUrl(project.githubUrl),
-                                  icon: const Icon(Icons.code, size: 16),
-                                  label: const Text('Code'),
+                                      _launchUrl(project.appStoreUrl),
+                                  icon: const Icon(Icons.apple, size: 16),
+                                  label: const Text('App Store'),
                                 ),
                               ),
                           ],
