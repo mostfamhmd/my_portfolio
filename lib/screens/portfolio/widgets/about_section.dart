@@ -55,6 +55,14 @@ class AboutSection extends StatelessWidget {
                     value: personalInfo.phone,
                     type: InfoCardType.phone,
                   ),
+                if (personalInfo.cvUrl.isNotEmpty)
+                  _InfoCard(
+                    icon: Icons.description_outlined,
+                    title: 'Download CV',
+                    value: 'Resume',
+                    type: InfoCardType.cv,
+                    cvUrl: personalInfo.cvUrl,
+                  ),
               ],
             ),
           ],
@@ -64,19 +72,21 @@ class AboutSection extends StatelessWidget {
   }
 }
 
-enum InfoCardType { location, email, phone }
+enum InfoCardType { location, email, phone, cv }
 
 class _InfoCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String value;
   final InfoCardType type;
+  final String? cvUrl;
 
   const _InfoCard({
     required this.icon,
     required this.title,
     required this.value,
     required this.type,
+    this.cvUrl,
   });
 
   Future<void> _handleEmailTap(BuildContext context, String email) async {
@@ -98,6 +108,29 @@ class _InfoCard extends StatelessWidget {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
+      }
+    }
+  }
+
+  Future<void> _handleCvTap(BuildContext context, String cvUrl) async {
+    if (!context.mounted) return;
+
+    try {
+      final Uri cvUri = Uri.parse(cvUrl);
+      if (await canLaunchUrl(cvUri)) {
+        await launchUrl(cvUri, mode: LaunchMode.externalApplication);
+      } else {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not open CV link')),
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
+        );
       }
     }
   }
@@ -188,7 +221,7 @@ class _InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isClickable =
-        type == InfoCardType.email || type == InfoCardType.phone;
+        type == InfoCardType.email || type == InfoCardType.phone || type == InfoCardType.cv;
 
     Widget cardContent = GradientCard(
       padding: const EdgeInsets.all(24),
@@ -216,6 +249,8 @@ class _InfoCard extends StatelessWidget {
             _handleEmailTap(context, value);
           } else if (type == InfoCardType.phone) {
             _handlePhoneTap(context, value);
+          } else if (type == InfoCardType.cv && cvUrl != null) {
+            _handleCvTap(context, cvUrl!);
           }
         },
         borderRadius: BorderRadius.circular(16),
