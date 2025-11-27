@@ -21,7 +21,9 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => PortfolioProvider(storageService)),
+        ChangeNotifierProvider(
+          create: (_) => PortfolioProvider(storageService),
+        ),
       ],
       child: const MyPortfolioApp(),
     ),
@@ -61,24 +63,33 @@ class PortfolioHome extends StatelessWidget {
 
         if (provider.hasLoadError) {
           return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.error_outline, size: 64, color: Colors.red),
-                  const SizedBox(height: 16),
-                  Text(
-                    provider.errorMessage ?? 'Failed to load portfolio',
-                    style: const TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
+            body: SingleChildScrollView(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.error_outline,
+                        size: 64,
+                        color: Colors.red,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        provider.errorMessage ?? 'Failed to load portfolio',
+                        style: const TextStyle(fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 24),
+                      ElevatedButton.icon(
+                        onPressed: provider.refresh,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Retry'),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 24),
-                  ElevatedButton.icon(
-                    onPressed: provider.refresh,
-                    icon: const Icon(Icons.refresh),
-                    label: const Text('Retry'),
-                  ),
-                ],
+                ),
               ),
             ),
           );
