@@ -3,14 +3,14 @@
     "platforms": {
       "android": {
         "default": {
-          "projectId": "portfolio-14472",
+          "projectId": "portfolio-14472-500fe-500fe-500fe",
           "appId": "1:21407899216:android:421cc398baf2ecfbf03b55",
           "fileOutput": "android/app/google-services.json"
         }
       },
       "dart": {
         "lib/firebase_options.dart": {
-          "projectId": "portfolio-14472",
+          "projectId": "portfolio-14472-500fe-500fe-500fe",
           "configurations": {
             "android": "1:21407899216:android:421cc398baf2ecfbf03b55",
             "ios": "1:21407899216:ios:243f03f26c84bba7f03b55",
@@ -23,7 +23,7 @@
     }
   },
   "hosting": {
-    "public": "public",
+    "public": "build/web",
     "ignore": [
       "firebase.json",
       "**/.*",

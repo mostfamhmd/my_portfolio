@@ -44,9 +44,9 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyC3gryPqgO-Ubb6mmu7lLvfQWj7PVC68RU',
     appId: '1:21407899216:web:18e60efe524781d9f03b55',
     messagingSenderId: '21407899216',
-    projectId: 'portfolio-14472',
-    authDomain: 'portfolio-14472.firebaseapp.com',
-    storageBucket: 'portfolio-14472.firebasestorage.app',
+    projectId: 'portfolio-14472-500fe',
+    authDomain: 'portfolio-14472-500fe.firebaseapp.com',
+    storageBucket: 'portfolio-14472-500fe.firebasestorage.app',
     measurementId: 'G-C4E2TLWT4D',
   );
 
@@ -54,16 +54,16 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyCLIt_48xbsdCGpPc4ToXbb2KB8S1yXxkk',
     appId: '1:21407899216:android:421cc398baf2ecfbf03b55',
     messagingSenderId: '21407899216',
-    projectId: 'portfolio-14472',
-    storageBucket: 'portfolio-14472.firebasestorage.app',
+    projectId: 'portfolio-14472-500fe',
+    storageBucket: 'portfolio-14472-500fe.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAKjWrefMyet6I9RyxfYIg87A6LMUHTs_A',
     appId: '1:21407899216:ios:243f03f26c84bba7f03b55',
     messagingSenderId: '21407899216',
-    projectId: 'portfolio-14472',
-    storageBucket: 'portfolio-14472.firebasestorage.app',
+    projectId: 'portfolio-14472-500fe',
+    storageBucket: 'portfolio-14472-500fe.firebasestorage.app',
     iosBundleId: 'com.example.myPortfolio',
   );
 
@@ -71,8 +71,8 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyAKjWrefMyet6I9RyxfYIg87A6LMUHTs_A',
     appId: '1:21407899216:ios:243f03f26c84bba7f03b55',
     messagingSenderId: '21407899216',
-    projectId: 'portfolio-14472',
-    storageBucket: 'portfolio-14472.firebasestorage.app',
+    projectId: 'portfolio-14472-500fe',
+    storageBucket: 'portfolio-14472-500fe.firebasestorage.app',
     iosBundleId: 'com.example.myPortfolio',
   );
 
@@ -80,9 +80,9 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyC3gryPqgO-Ubb6mmu7lLvfQWj7PVC68RU',
     appId: '1:21407899216:web:73353e913ea789a1f03b55',
     messagingSenderId: '21407899216',
-    projectId: 'portfolio-14472',
-    authDomain: 'portfolio-14472.firebaseapp.com',
-    storageBucket: 'portfolio-14472.firebasestorage.app',
+    projectId: 'portfolio-14472-500fe',
+    authDomain: 'portfolio-14472-500fe.firebaseapp.com',
+    storageBucket: 'portfolio-14472-500fe.firebasestorage.app',
     measurementId: 'G-BT24J38JKD',
   );
 }

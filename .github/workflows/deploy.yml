@@ -2,7 +2,7 @@ name: Deploy Flutter Web to GitHub Pages & Firebase
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.38.3'
+          flutter-version: "3.38.3"
 
       - name: Install dependencies
         run: flutter pub get
@@ -37,6 +37,6 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_14472 }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_14472_500FE }}
           channelId: live
-          projectId: portfolio-14472
+          projectId: portfolio-14472-500fe-500fe-500fe
