@@ -3,14 +3,14 @@
     "platforms": {
       "android": {
         "default": {
-          "projectId": "portfolio-14472-500fe-500fe-500fe",
+          "projectId": "portfolio-14472",
           "appId": "1:21407899216:android:421cc398baf2ecfbf03b55",
           "fileOutput": "android/app/google-services.json"
         }
       },
       "dart": {
         "lib/firebase_options.dart": {
-          "projectId": "portfolio-14472-500fe-500fe-500fe",
+          "projectId": "portfolio-14472",
           "configurations": {
             "android": "1:21407899216:android:421cc398baf2ecfbf03b55",
             "ios": "1:21407899216:ios:243f03f26c84bba7f03b55",
