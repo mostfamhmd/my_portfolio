@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'services/storage_service.dart';
 import 'theme/app_theme.dart';
@@ -8,11 +9,19 @@ import 'providers/portfolio_provider.dart';
 import 'providers/theme_provider.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'widgets/loading_widgets.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Disable persistence for web to avoid Vercel long-polling issues
+  if (kIsWeb) {
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: false,
+    );
+  }
 
   final storageService = StorageService();
   await storageService.init();

@@ -7,6 +7,12 @@ import 'firebase_service.dart';
 
 enum LoadingStatus { initial, loading, loaded, error }
 
+/// StorageService - Optimized for Vercel hosting
+///
+/// Uses one-time fetches (get()) instead of real-time listeners (snapshots())
+/// to avoid ping/long-polling issues with Vercel's serverless architecture.
+///
+/// For real-time updates, consider using Firebase Hosting instead.
 class StorageService {
   final FirebaseService _firebaseService = FirebaseService();
 
@@ -30,11 +36,11 @@ class StorageService {
   }
 
   Future<void> init() async {
-    // Load data from Firebase on initialization
+    // Load data from Firebase on initialization (one-time fetch)
     await _loadFromFirebase();
 
-    // Listen for real-time updates
-    _listenToFirebaseUpdates();
+    // Note: Real-time listeners removed to fix Vercel compatibility
+    // Data is now fetched on-demand using get() instead of snapshots()
   }
 
   /// Set callback for when data changes
@@ -47,11 +53,11 @@ class StorageService {
     _onLoadingStatusChanged = callback;
   }
 
-  /// Load all data from Firebase
+  /// Load all data from Firebase (one-time fetch - Vercel compatible)
   Future<void> _loadFromFirebase() async {
     _updateLoadingStatus(LoadingStatus.loading);
     try {
-      // Just verify connection, actual data loaded on demand
+      // One-time fetch, no real-time listeners
       await _firebaseService.getAllData();
       _updateLoadingStatus(LoadingStatus.loaded);
     } catch (e) {
@@ -59,16 +65,6 @@ class StorageService {
       _updateLoadingStatus(LoadingStatus.error, errorMsg);
       print(errorMsg);
     }
-  }
-
-  /// Listen for real-time updates from Firebase
-  void _listenToFirebaseUpdates() {
-    _firebaseService.portfolioStream.listen((snapshot) {
-      if (snapshot.exists) {
-        // Notify listeners of data changes
-        _onDataChanged?.call();
-      }
-    });
   }
 
   // Personal Info

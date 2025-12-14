@@ -6,21 +6,24 @@ import '../models/experience.dart';
 import '../models/social_link.dart';
 import '../services/storage_service.dart';
 
+/// PortfolioProvider - Optimized for Vercel hosting
+///
+/// Removed real-time listeners to fix Vercel ping/long-polling issues.
+/// Data is now loaded on-demand and can be refreshed manually.
 class PortfolioProvider with ChangeNotifier {
   final StorageService _storage;
 
   PortfolioProvider(this._storage) {
     _loadData();
-    // Listen for real-time data changes from Firebase
-    _storage.setOnDataChanged(() {
-      _loadData();
-    });
     // Listen for loading status changes
     _storage.setOnLoadingStatusChanged((status, error) {
       _loadingStatus = status;
       _errorMessage = error;
       notifyListeners();
     });
+
+    // Note: Real-time data sync removed for Vercel compatibility
+    // Use refresh() method to manually reload data when needed
   }
 
   // State

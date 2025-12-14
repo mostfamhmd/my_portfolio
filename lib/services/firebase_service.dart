@@ -6,7 +6,11 @@ import '../models/experience.dart';
 import '../models/social_link.dart';
 
 /// Service for reading portfolio data from Firebase Firestore
-/// This service is used by the my_portfolio app to display data
+///
+/// Optimized for Vercel hosting - uses one-time fetches (get()) instead of
+/// real-time listeners (snapshots()) to avoid ping/long-polling issues.
+///
+/// For real-time updates, consider using Firebase Hosting instead of Vercel.
 class FirebaseService {
   static const String _collectionName = 'portfolio';
   static const String _documentId = 'data';
@@ -17,11 +21,7 @@ class FirebaseService {
   DocumentReference<Map<String, dynamic>> get _portfolioDoc =>
       _firestore.collection(_collectionName).doc(_documentId);
 
-  // Stream for real-time updates
-  Stream<DocumentSnapshot<Map<String, dynamic>>> get portfolioStream =>
-      _portfolioDoc.snapshots();
-
-  // Personal Info
+  // Personal Info (one-time fetch)
   Future<PersonalInfo?> getPersonalInfo() async {
     try {
       final doc = await _portfolioDoc.get();
@@ -37,18 +37,7 @@ class FirebaseService {
     }
   }
 
-  Stream<PersonalInfo?> get personalInfoStream {
-    return portfolioStream.map((doc) {
-      if (!doc.exists) return null;
-      final data = doc.data();
-      if (data == null || !data.containsKey('personalInfo')) return null;
-      return PersonalInfo.fromJson(
-        Map<String, dynamic>.from(data['personalInfo']),
-      );
-    });
-  }
-
-  // Skills
+  // Skills (one-time fetch)
   Future<List<Skill>> getSkills() async {
     try {
       final doc = await _portfolioDoc.get();
@@ -65,19 +54,7 @@ class FirebaseService {
     }
   }
 
-  Stream<List<Skill>> get skillsStream {
-    return portfolioStream.map((doc) {
-      if (!doc.exists) return <Skill>[];
-      final data = doc.data();
-      if (data == null || !data.containsKey('skills')) return <Skill>[];
-      final List<dynamic> skillsList = data['skills'];
-      return skillsList
-          .map((json) => Skill.fromJson(Map<String, dynamic>.from(json)))
-          .toList();
-    });
-  }
-
-  // Projects
+  // Projects (one-time fetch)
   Future<List<Project>> getProjects() async {
     try {
       final doc = await _portfolioDoc.get();
@@ -94,19 +71,7 @@ class FirebaseService {
     }
   }
 
-  Stream<List<Project>> get projectsStream {
-    return portfolioStream.map((doc) {
-      if (!doc.exists) return <Project>[];
-      final data = doc.data();
-      if (data == null || !data.containsKey('projects')) return <Project>[];
-      final List<dynamic> projectsList = data['projects'];
-      return projectsList
-          .map((json) => Project.fromJson(Map<String, dynamic>.from(json)))
-          .toList();
-    });
-  }
-
-  // Experiences
+  // Experiences (one-time fetch)
   Future<List<Experience>> getExperiences() async {
     try {
       final doc = await _portfolioDoc.get();
@@ -123,20 +88,7 @@ class FirebaseService {
     }
   }
 
-  Stream<List<Experience>> get experiencesStream {
-    return portfolioStream.map((doc) {
-      if (!doc.exists) return <Experience>[];
-      final data = doc.data();
-      if (data == null || !data.containsKey('experiences'))
-        return <Experience>[];
-      final List<dynamic> experiencesList = data['experiences'];
-      return experiencesList
-          .map((json) => Experience.fromJson(Map<String, dynamic>.from(json)))
-          .toList();
-    });
-  }
-
-  // Social Links
+  // Social Links (one-time fetch)
   Future<List<SocialLink>> getSocialLinks() async {
     try {
       final doc = await _portfolioDoc.get();
@@ -153,20 +105,7 @@ class FirebaseService {
     }
   }
 
-  Stream<List<SocialLink>> get socialLinksStream {
-    return portfolioStream.map((doc) {
-      if (!doc.exists) return <SocialLink>[];
-      final data = doc.data();
-      if (data == null || !data.containsKey('socialLinks'))
-        return <SocialLink>[];
-      final List<dynamic> linksList = data['socialLinks'];
-      return linksList
-          .map((json) => SocialLink.fromJson(Map<String, dynamic>.from(json)))
-          .toList();
-    });
-  }
-
-  // Get all data at once
+  // Get all data at once (one-time fetch)
   Future<Map<String, dynamic>> getAllData() async {
     try {
       final doc = await _portfolioDoc.get();
